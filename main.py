@@ -4,15 +4,15 @@ import os
 import datetime
 import pandas as pd
 
-# Inicializar Firebase
+#Initialize Firebase
 def initialize_firebase():
     cred = credentials.Certificate("serviceAccountKey.json") 
     firebase_admin.initialize_app(cred)
     return firestore.client()
 
-# Obtener cantidad de usuarios registrados en la última semana
+#Get the number of registered users in the last week
 def get_weekly_new_users(db):
-    one_week_ago = datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=7)
+    one_week_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
     
     users_ref = db.collection('users')
     query = users_ref.where('createdAt', '>=', one_week_ago)
@@ -20,7 +20,7 @@ def get_weekly_new_users(db):
     results = query.stream()
     return len(list(results))
 
-# Obtener cantidad de inicios de sesión en la última semana
+#Get the number of logins in the last week
 def get_weekly_logins(db):
     one_week_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
     
@@ -30,23 +30,31 @@ def get_weekly_logins(db):
     results = query.stream()
     return len(list(results))
 
-# Guardar datos en CSV
+#Save data to CSV (Appending data instead of overwriting)
 def save_data_to_csv(new_users, logins):
-    data = {
-        "Metric": ["New Users", "Logins"],
-        "Count": [new_users, logins],
-    }
-    
-    df = pd.DataFrame(data)
-
-    # Crear carpeta si no existe
     folder_path = "analytics_results"
     os.makedirs(folder_path, exist_ok=True)
 
     file_path = os.path.join(folder_path, "weekly_activity.csv")
-    df.to_csv(file_path, index=False)
 
-# Función principal
+    #Create DataFrame with the new data
+    new_data = pd.DataFrame({
+        "Date": [datetime.datetime.now().strftime("%Y-%m-%d")],
+        "New Users": [new_users],
+        "Logins": [logins]
+    })
+
+    #If the file exists, load the previous data
+    if os.path.exists(file_path):
+        existing_data = pd.read_csv(file_path)
+        updated_data = pd.concat([existing_data, new_data], ignore_index=True)
+    else:
+        updated_data = new_data
+
+    #Save the file without overwriting previous data
+    updated_data.to_csv(file_path, index=False)
+
+#Main function
 def main():
     print("Connecting to Firebase...")
     db = initialize_firebase()
