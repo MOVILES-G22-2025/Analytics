@@ -10,6 +10,7 @@ def initialize_firebase():
     firebase_admin.initialize_app(cred)
     return firestore.client()
 
+"""BQ TYPE 1: How many users create an account and log in per week?"""
 #Get the number of registered users in the last week
 def get_weekly_new_users(db):
     one_week_ago = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=7)
