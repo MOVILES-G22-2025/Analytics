@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Firebase credentials
+firebase/serviceAccountKey.json
+
+# CSVs y datos temporales
+data/raw/
+data/processed/
+data/archive/
+*.csv
+*.xlsx
+
+# Power BI files
+*.pbix
