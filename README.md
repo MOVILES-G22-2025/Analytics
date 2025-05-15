@@ -3,7 +3,7 @@ This repository contains all code related to the analytics pipeline.
 
 ## Access to SeneMarket Dashboard
 
-[SeneMarket Dashboard](https://uniandes-my.sharepoint.com/:u:/g/personal/m_calderonr_uniandes_edu_co/EWDQLOFQbzdBgy2CKyLpJtoBh8hAy36THhWS-d5ZeMALxg?e=YDSYQ2)
+[SeneMarket Dashboard](https://uniandes-my.sharepoint.com/:u:/g/personal/d_castrillonc_uniandes_edu_co/EZpXPZd6sM1Fi8AQaNpU3xQBrWUGacYbuiBB6RxcpoCxOQ?e=pnSc32)
 
 ## Instructions
 
